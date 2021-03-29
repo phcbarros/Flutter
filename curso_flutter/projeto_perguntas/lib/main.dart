@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './questao.dart'
+import './questao.dart';
 
 main() => runApp(PerguntaApp());
 
@@ -49,7 +49,6 @@ class _PerguntaAppState extends State<PerguntaApp> {
 
 // nó raiz da aplicação PerguntaApp
 class PerguntaApp extends StatefulWidget {
- 
   _PerguntaAppState createState() {
     return _PerguntaAppState();
   }
