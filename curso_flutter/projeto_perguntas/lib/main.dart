@@ -4,15 +4,18 @@ main() => runApp(PerguntaApp());
 
 // nó raiz da aplicação PerguntaApp
 class PerguntaApp extends StatelessWidget {
+  var perguntaSelecionada = 0;
+
   void responder() {
-    print('pergunta respondida');
+    perguntaSelecionada++;
+    print(perguntaSelecionada);
   }
 
   @override
   Widget build(BuildContext context) {
     final List<String> perguntas = [
       'Qual é a sua cor favorita?',
-      'Qual seu animal favorito?'
+      'Qual é o seu animal favorito?'
     ];
 
     return MaterialApp(
@@ -22,20 +25,18 @@ class PerguntaApp extends StatelessWidget {
         ),
         body: Column(
           children: [
-            Text(perguntas[0]),
+            Text(perguntas[perguntaSelecionada]),
             ElevatedButton(
               child: Text('Resposta 1'),
               onPressed: responder,
             ),
             ElevatedButton(
               child: Text('Resposta 2'),
-              onPressed: () {
-                print('Resposta 2 selecionada');
-              },
+              onPressed: responder,
             ),
             ElevatedButton(
               child: Text('Resposta 3'),
-              onPressed: () => print('Resposta 3 selecionada!'),
+              onPressed: responder,
             )
           ],
         ),
