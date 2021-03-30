@@ -19,7 +19,7 @@ class MyHomePage extends StatelessWidget {
     Transaction(
         id: '1', title: 'Box Pokemon', value: 199.00, date: DateTime.now()),
     Transaction(
-        id: '2', title: 'Conta de Luz', value: 100.50, date: DateTime.now()),
+        id: '2', title: 'Conta de Luz', value: 100.55, date: DateTime.now()),
   ];
   @override
   Widget build(BuildContext context) {
@@ -62,9 +62,21 @@ class MyHomePage extends StatelessWidget {
                           ),)
                       ),
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("${tr.title}"),
-                          Text("${tr.date.toString()}"),
+                          Text(
+                            tr.title,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16
+                            ),
+                          ),
+                          Text(
+                            tr.date.toString(),
+                            style: TextStyle(
+                              color: Colors.grey
+                            ),
+                          ),
                         ],
                       )
                     ],
