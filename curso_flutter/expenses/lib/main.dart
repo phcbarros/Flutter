@@ -16,8 +16,10 @@ class ExpensesApp extends StatelessWidget {
 
 class MyHomePage extends StatelessWidget {
   final _transactions = [
-    Transaction(id: '1', title: 'Box Pokemon', value: 199.0, date: DateTime.now()),
-    Transaction(id: '2', title: 'Conta de Luz', value: 100.0, date: DateTime.now()),
+    Transaction(
+        id: '1', title: 'Box Pokemon', value: 199.0, date: DateTime.now()),
+    Transaction(
+        id: '2', title: 'Conta de Luz', value: 100.0, date: DateTime.now()),
   ];
   @override
   Widget build(BuildContext context) {
@@ -34,8 +36,12 @@ class MyHomePage extends StatelessWidget {
                 child: Text("Gráfico"),
               ),
             ),
-            Card(
-              child: Text("Lista de transações"),
+            Column(
+              children: _transactions.map((transaction) {
+                return Card(
+                  child: Text(transaction.title),
+                );
+              }).toList(),
             )
           ],
         ));
