@@ -6,33 +6,34 @@ main() => runApp(PerguntaApp());
 
 class _PerguntaAppState extends State<PerguntaApp> {
   var _perguntaSelecionada = 0;
+  var _pontuacaoTotal = 0;
   final List<Map<String, Object>> _perguntas = const [
     {
       'texto': 'Qual é a sua cor favorita?',
       'respostas': [
-        { 'texto' : 'Azul', 'nota': 10 },
-        { 'texto' : 'Vermelho', 'nota': 3 },
-        { 'texto' : 'Verde', 'nota': 5 },
-        { 'texto' : 'Preto', 'nota': 8 },
+        {'texto': 'Azul', 'pontuacao': 10 },
+        {'texto': 'Vermelho', 'pontuacao': 3 },
+        {'texto': 'Verde', 'pontuacao': 5 },
+        {'texto': 'Preto', 'pontuacao': 4 },
       ]
     },
     {
       'texto': 'Qual é o seu animal favorito?',
       'respostas': [
-        { 'texto' : 'Cachorro',  'nota': 8 },
-        { 'texto' : 'Gato',  'nota': 10} ,
-        { 'texto' : 'Boi',  'nota': 2 },
-        { 'texto' : 'Peixe', 'nota': 6 },
+        {'texto': 'Cachorro', 'pontuacao': 5 },
+        {'texto': 'Gato', 'pontuacao': 10 },
+        {'texto': 'Boi', 'pontuacao': 2 },
+        {'texto': 'Peixe', 'pontuacao': 3 },
       ]
     },
     {
       'texto': 'Qual o seu filme favorito?',
       'respostas': [
-        {'texto' : 'Moana', 'nota': 10 },
-        {'texto' : 'Vigadores', 'nota': 10 },
-        {'texto' : 'Homem de Ferro', 'nota': 10 },
-        {'texto' : 'Thor', 'nota': 10 },
-        {'texto' : 'Capitão América', 'nota': 10 },
+        {'texto': 'Moana', 'pontuacao': 5 },
+        {'texto': 'Vigadores', 'pontuacao': 8 },
+        {'texto': 'Homem de Ferro', 'pontuacao': 10 },
+        {'texto': 'Thor', 'pontuacao': 3 },
+        {'texto': 'Capitão América', 'pontuacao': 7 },
       ]
     }
   ];
@@ -41,30 +42,30 @@ class _PerguntaAppState extends State<PerguntaApp> {
     return _perguntaSelecionada < _perguntas.length;
   }
 
-  void _responder() {
-    if ( temPerguntaSelecionada) {
+  void _responder(int pontuacao) {
+    if (temPerguntaSelecionada) {
       setState(() {
         _perguntaSelecionada++;
+        _pontuacaoTotal += pontuacao;
       });
     }
+
+    print(_pontuacaoTotal);
   }
 
   @override
   Widget build(BuildContext context) {
-   
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Perguntas'),
-        ),
-        body: temPerguntaSelecionada
-            ? Questionario(
-              perguntas: _perguntas, 
-              perguntaSelecionada: _perguntaSelecionada, 
-              responder: _responder
-            )
-            : Resultado()
-      ),
+          appBar: AppBar(
+            title: Text('Perguntas'),
+          ),
+          body: temPerguntaSelecionada
+              ? Questionario(
+                  perguntas: _perguntas,
+                  perguntaSelecionada: _perguntaSelecionada,
+                  responder: _responder)
+              : Resultado(_pontuacaoTotal)),
     );
   }
 }
