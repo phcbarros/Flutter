@@ -9,20 +9,30 @@ class _PerguntaAppState extends State<PerguntaApp> {
   final List<Map<String, Object>> _perguntas = const [
     {
       'texto': 'Qual é a sua cor favorita?',
-      'respostas': ['Azul', 'Vermelho', 'Verde', 'Preto']
+      'respostas': [
+        { 'texto' : 'Azul', 'nota': 10 },
+        { 'texto' : 'Vermelho', 'nota': 3 },
+        { 'texto' : 'Verde', 'nota': 5 },
+        { 'texto' : 'Preto', 'nota': 8 },
+      ]
     },
     {
       'texto': 'Qual é o seu animal favorito?',
-      'respostas': ['Cachorro', 'Gato', 'Boi', 'Peixe']
+      'respostas': [
+        { 'texto' : 'Cachorro',  'nota': 8 },
+        { 'texto' : 'Gato',  'nota': 10} ,
+        { 'texto' : 'Boi',  'nota': 2 },
+        { 'texto' : 'Peixe', 'nota': 6 },
+      ]
     },
     {
       'texto': 'Qual o seu filme favorito?',
       'respostas': [
-        'Moana',
-        'Vigadores',
-        'Homem de Ferro',
-        'Thor',
-        'Capitão América'
+        {'texto' : 'Moana', 'nota': 10 },
+        {'texto' : 'Vigadores', 'nota': 10 },
+        {'texto' : 'Homem de Ferro', 'nota': 10 },
+        {'texto' : 'Thor', 'nota': 10 },
+        {'texto' : 'Capitão América', 'nota': 10 },
       ]
     }
   ];
@@ -42,7 +52,6 @@ class _PerguntaAppState extends State<PerguntaApp> {
   @override
   Widget build(BuildContext context) {
    
-
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
