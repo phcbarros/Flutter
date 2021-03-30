@@ -27,9 +27,22 @@ class _PerguntaAppState extends State<PerguntaApp> {
       },
       {
         'texto': 'Qual o seu filme favorito?',
-        'respostas': ['Moana', 'Vigadores', 'Homem de Ferro', 'Thor']
+        'respostas': [
+          'Moana',
+          'Vigadores',
+          'Homem de Ferro',
+          'Thor',
+          'Capitão América'
+        ]
       }
     ];
+
+    // cria uma lista com todas as respostas da pergunta seleceionada
+    List<Widget> respostas = [];
+    for (var textoResposta in perguntas[_perguntaSelecionada]['respostas']) {
+      respostas
+        .add(Resposta(texto: textoResposta, quandoSelecionado: _responder));
+    }
 
     return MaterialApp(
       home: Scaffold(
@@ -39,9 +52,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
         body: Column(
           children: [
             Questao(perguntas[_perguntaSelecionada]['texto']),
-            Resposta(texto: 'Resposta 1', quandoSelecionado: _responder),
-            Resposta(texto: 'Resposta 2', quandoSelecionado: _responder),
-            Resposta(texto: 'Resposta 3', quandoSelecionado: _responder),
+            ...respostas,
           ],
         ),
       ),
