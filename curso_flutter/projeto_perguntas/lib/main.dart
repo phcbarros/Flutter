@@ -11,29 +11,29 @@ class _PerguntaAppState extends State<PerguntaApp> {
     {
       'texto': 'Qual é a sua cor favorita?',
       'respostas': [
-        {'texto': 'Azul', 'pontuacao': 10 },
-        {'texto': 'Vermelho', 'pontuacao': 3 },
-        {'texto': 'Verde', 'pontuacao': 5 },
-        {'texto': 'Preto', 'pontuacao': 4 },
+        {'texto': 'Azul', 'pontuacao': 10},
+        {'texto': 'Vermelho', 'pontuacao': 3},
+        {'texto': 'Verde', 'pontuacao': 2},
+        {'texto': 'Preto', 'pontuacao': 4},
       ]
     },
     {
       'texto': 'Qual é o seu animal favorito?',
       'respostas': [
-        {'texto': 'Cachorro', 'pontuacao': 5 },
-        {'texto': 'Gato', 'pontuacao': 10 },
-        {'texto': 'Boi', 'pontuacao': 2 },
-        {'texto': 'Peixe', 'pontuacao': 3 },
+        {'texto': 'Cachorro', 'pontuacao': 5},
+        {'texto': 'Gato', 'pontuacao': 10},
+        {'texto': 'Boi', 'pontuacao': 2},
+        {'texto': 'Peixe', 'pontuacao': 3},
       ]
     },
     {
       'texto': 'Qual o seu filme favorito?',
       'respostas': [
-        {'texto': 'Moana', 'pontuacao': 5 },
-        {'texto': 'Vigadores', 'pontuacao': 8 },
-        {'texto': 'Homem de Ferro', 'pontuacao': 10 },
-        {'texto': 'Thor', 'pontuacao': 3 },
-        {'texto': 'Capitão América', 'pontuacao': 7 },
+        {'texto': 'Moana', 'pontuacao': 4},
+        {'texto': 'Vigadores', 'pontuacao': 5},
+        {'texto': 'Homem de Ferro', 'pontuacao': 10},
+        {'texto': 'Thor', 'pontuacao': 3},
+        {'texto': 'Capitão América', 'pontuacao': 7},
       ]
     }
   ];
@@ -53,6 +53,13 @@ class _PerguntaAppState extends State<PerguntaApp> {
     print(_pontuacaoTotal);
   }
 
+  void _reiniciarQuestionario() {
+    setState(() {
+      _perguntaSelecionada = 0;
+      _pontuacaoTotal = 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -65,7 +72,8 @@ class _PerguntaAppState extends State<PerguntaApp> {
                   perguntas: _perguntas,
                   perguntaSelecionada: _perguntaSelecionada,
                   responder: _responder)
-              : Resultado(_pontuacaoTotal)),
+              : Resultado(_pontuacaoTotal, _reiniciarQuestionario)
+      ),
     );
   }
 }
