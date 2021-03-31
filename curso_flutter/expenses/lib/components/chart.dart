@@ -34,13 +34,13 @@ class Chart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 6,
-      margin: EdgeInsets.all(20),
+      margin: EdgeInsets.all(15),
       child: Row(
         children: groupedTransactions.map((tr) {
           return ChartBar(
             label: tr['day'],
             value: tr['value'],
-            percentage: 0, 
+            percentage: 0.3, 
           );
         }).toList(),
       ),
