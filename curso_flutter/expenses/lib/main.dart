@@ -24,35 +24,27 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  
-   final _transactions = [
+  final _transactions = [
     Transaction(
-      id: '1', 
-      title: 'Box Pokemon', 
-      value: 199.00, 
-      date: DateTime.now()
-    ),
+        id: '1', title: 'Box Pokemon', value: 199.00, date: DateTime.now()),
     Transaction(
-      id: '2', 
-      title: 'Conta de Luz', 
-      value: 100.55, 
-      date: DateTime.now()
-    ),
+        id: '2', title: 'Conta de Luz', value: 100.55, date: DateTime.now()),
   ];
 
   _addTransaction(String title, double value) {
     final newTransaction = Transaction(
-      id: Random().nextDouble().toString(),
-      title: title,
-      value: value,
-      date: DateTime.now()
-    );
+        id: Random().nextDouble().toString(),
+        title: title,
+        value: value,
+        date: DateTime.now());
 
     setState(() {
       _transactions.add(newTransaction);
     });
+
+    Navigator.of(context).pop();
   }
-  
+
   _openTransactionModalForm(BuildContext context) {
     showModalBottomSheet(
       context: context,

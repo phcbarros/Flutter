@@ -11,7 +11,6 @@ class TransactionForm extends StatefulWidget {
 
 class _TransactionFormState extends State<TransactionForm> {
   final titleController = TextEditingController();
-
   final valueController = TextEditingController();
 
   _submitForm() {
@@ -35,7 +34,8 @@ class _TransactionFormState extends State<TransactionForm> {
               TextField(
                 controller: titleController,
                 onSubmitted: (_) => _submitForm(),
-                decoration: InputDecoration(labelText: "Título"),
+                decoration: InputDecoration(labelText: "Título",),
+                autofocus: true,
               ),
               TextField(
                 controller: valueController,
