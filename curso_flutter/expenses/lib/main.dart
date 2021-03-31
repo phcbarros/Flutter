@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:expenses/components/transaction_form.dart';
 import 'package:expenses/components/transaction_list.dart';
 import 'package:flutter/material.dart';
+import 'components/chart.dart';
 import 'models/transaction.dart';
 
 main() {
@@ -15,26 +16,23 @@ class ExpensesApp extends StatelessWidget {
     return MaterialApp(
       home: MyHomePage(),
       theme: ThemeData(
-        primarySwatch: Colors.purple,
-        accentColor: Colors.blue,
-        fontFamily: 'Quicksand',
-        textTheme: ThemeData.light().textTheme.copyWith(
-          headline6:  TextStyle(
-              fontFamily: 'OpenSans',
-              fontSize: 18,
-              fontWeight: FontWeight.bold
-            ),
-        ),
-        appBarTheme: AppBarTheme(
+          primarySwatch: Colors.purple,
+          accentColor: Colors.blue,
+          fontFamily: 'Quicksand',
           textTheme: ThemeData.light().textTheme.copyWith(
-            headline6: TextStyle(
-              fontFamily: 'OpenSans',
-              fontSize: 20,
-              fontWeight: FontWeight.bold
-            ),
-          ),
-        )
-      ),
+                headline6: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ),
+          appBarTheme: AppBarTheme(
+            textTheme: ThemeData.light().textTheme.copyWith(
+                  headline6: TextStyle(
+                      fontFamily: 'OpenSans',
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+          )),
     );
   }
 }
@@ -46,8 +44,28 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [
-   
+    Transaction(
+        id: '3',
+        title: 'Conta Antiga',
+        value: 199.00,
+        date: DateTime.now().subtract(Duration(days: 33))),
+    Transaction(
+        id: '1',
+        title: 'Box Pokemon',
+        value: 199.00,
+        date: DateTime.now().subtract(Duration(days: 3))),
+    Transaction(
+        id: '2',
+        title: 'Conta de Luz',
+        value: 100.55,
+        date: DateTime.now().subtract(Duration(days: 2))),
   ];
+
+  List<Transaction> get _recentTransactions {
+    return _transactions.where((tr) {
+      return tr.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
+  }
 
   _addTransaction(String title, double value) {
     final newTransaction = Transaction(
@@ -74,7 +92,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Despesas Pessoais"),
@@ -88,14 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              child: Card(
-                child: Text("Gráfico"),
-              ),
-            ),
-            TransactionList(_transactions)
-          ],
+          children: [Chart(_recentTransactions), TransactionList(_transactions)],
         ),
       ),
       floatingActionButton: FloatingActionButton(
