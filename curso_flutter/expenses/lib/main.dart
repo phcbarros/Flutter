@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:expenses/components/transaction_form.dart';
 import 'package:expenses/components/transaction_list.dart';
@@ -15,24 +16,34 @@ class ExpensesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: MyHomePage(),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('pt', 'BR'),
+      ],
       theme: ThemeData(
-          primarySwatch: Colors.purple,
-          accentColor: Colors.blue,
-          fontFamily: 'Quicksand',
+        primarySwatch: Colors.purple,
+        accentColor: Colors.blue,
+        fontFamily: 'Quicksand',
+        textTheme: ThemeData.light().textTheme.copyWith(
+          headline6: TextStyle(
+              fontFamily: 'OpenSans',
+              fontSize: 18,
+              fontWeight: FontWeight.bold),
+        ),
+        appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
-                headline6: TextStyle(
-                    fontFamily: 'OpenSans',
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
-              ),
-          appBarTheme: AppBarTheme(
-            textTheme: ThemeData.light().textTheme.copyWith(
-                  headline6: TextStyle(
-                      fontFamily: 'OpenSans',
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
-          )),
+            headline6: TextStyle(
+              fontFamily: 'OpenSans',
+              fontSize: 20,
+              fontWeight: FontWeight.bold
+            ),
+          ),
+        )
+      ),
     );
   }
 }
