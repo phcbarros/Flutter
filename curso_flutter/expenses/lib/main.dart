@@ -25,30 +25,28 @@ class ExpensesApp extends StatelessWidget {
         const Locale('pt', 'BR'),
       ],
       theme: ThemeData(
-        primarySwatch: Colors.purple,
-        accentColor: Colors.blue,
-        fontFamily: 'Quicksand',
-        textTheme: ThemeData.light().textTheme.copyWith(
-          headline6: TextStyle(
-            fontFamily: 'OpenSans',
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-          button: TextStyle(
-            color: Colors.white, 
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        appBarTheme: AppBarTheme(
+          primarySwatch: Colors.purple,
+          accentColor: Colors.blue,
+          fontFamily: 'Quicksand',
           textTheme: ThemeData.light().textTheme.copyWith(
-            headline6: TextStyle(
-              fontFamily: 'OpenSans',
-              fontSize: 20,
-              fontWeight: FontWeight.bold
-            ),
-          ),
-        )
-      ),
+                headline6: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+                button: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+          appBarTheme: AppBarTheme(
+            textTheme: ThemeData.light().textTheme.copyWith(
+                  headline6: TextStyle(
+                      fontFamily: 'OpenSans',
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+          )),
     );
   }
 }
@@ -97,6 +95,12 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.of(context).pop();
   }
 
+  _deleteTransaction(String id) {
+    setState(() {
+      _transactions.removeWhere((tr) => tr.id == id);
+    });
+  }
+
   _openTransactionModalForm(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -121,7 +125,10 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [Chart(_recentTransactions), TransactionList(_transactions)],
+          children: [
+            Chart(_recentTransactions),
+            TransactionList(_transactions, _deleteTransaction)
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
