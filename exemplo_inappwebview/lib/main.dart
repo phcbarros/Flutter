@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
@@ -16,9 +15,6 @@ Future main() async {
     await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
   }
 
-  await FlutterDownloader.initialize(
-      debug: true // optional: set false to disable printing logs to console
-      );
   await Permission.storage.request();
 
   runApp(MaterialApp(home: MyApp()));
@@ -54,10 +50,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Container(
-          margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+        body: SafeArea(
           child: InAppWebView(
-            initialUrlRequest: URLRequest(url: Uri.parse('')),
+            initialUrlRequest: URLRequest(url: Uri.parse('https://www.google.com.br')),
             initialOptions: options,
             onDownloadStart: (InAppWebViewController controller, Uri url) async {
               try {
