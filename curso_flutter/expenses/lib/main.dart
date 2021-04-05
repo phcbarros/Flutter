@@ -180,7 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               if (_showChart || !isLandscape)
                 Container(
-                  height: availableHeight * (isLandscape ? 0.6 : 0.3),
+                  height: availableHeight * (isLandscape ? 0.7 : 0.3),
                   child: Chart(_recentTransactions),
                 ),
               if (!_showChart || !isLandscape)
