@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter/services.dart';
 
 import 'package:expenses/components/transaction_form.dart';
 import 'package:expenses/components/transaction_list.dart';
@@ -14,6 +15,8 @@ main() {
 class ExpensesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
     return MaterialApp(
       home: MyHomePage(),
       localizationsDelegates: [
@@ -138,9 +141,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final appBar = AppBar(
-      title: Text("Despesas Pessoais",
+      title: Text(
+        "Despesas Pessoais",
         style: TextStyle(
-          fontSize: 20 * MediaQuery.of(context).textScaleFactor, //deixa o texto responsivo
+          fontSize: 20 *
+              MediaQuery.of(context).textScaleFactor, //deixa o texto responsivo
         ),
       ),
       actions: [
@@ -150,9 +155,9 @@ class _MyHomePageState extends State<MyHomePage> {
         )
       ],
     );
-    final availableHeight = MediaQuery.of(context).size.height 
-      - appBar.preferredSize.height 
-      - MediaQuery.of(context).padding.top;
+    final availableHeight = MediaQuery.of(context).size.height -
+        appBar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
 
     return Scaffold(
       appBar: appBar,
