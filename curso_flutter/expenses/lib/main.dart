@@ -1,6 +1,7 @@
+import 'dart:io';
 import 'dart:math';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:expenses/components/transaction_form.dart';
 import 'package:expenses/components/transaction_list.dart';
 import 'package:flutter/material.dart';
@@ -138,16 +139,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final isIOS = Platform.isIOS ? true : false;
     final mediaQuery = MediaQuery.of(context);
-    bool isLandscape =
-        mediaQuery.orientation == Orientation.landscape;
+    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
 
     final appBar = AppBar(
       title: Text(
         "Despesas Pessoais",
         style: TextStyle(
-          fontSize: 20 *
-              mediaQuery.textScaleFactor, //deixa o texto responsivo
+          fontSize: 20 * mediaQuery.textScaleFactor, //deixa o texto responsivo
         ),
       ),
       actions: [
@@ -192,7 +192,9 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: isIOS
+        ? Container()      
+        : FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => _openTransactionModalForm(context),
       ),
