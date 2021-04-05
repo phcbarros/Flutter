@@ -18,22 +18,19 @@ class TransactionList extends StatelessWidget {
                 return Column(
                   children: [
                     SizedBox(
-                      height:  constraints.maxHeight * 0.05,
+                      height: 20,
                     ),
-                    Container(
-                      height:  constraints.maxHeight * 0.3,
-                      child: Text(
-                        "Nenhuma Transação Cadastrada!",
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
+                    Text(
+                      "Nenhuma Transação Cadastrada!",
+                      style: Theme.of(context).textTheme.headline6,
                     ),
                     SizedBox(
-                      height:  constraints.maxHeight * 0.05,
+                      height: 20,
                     ),
                     Container(
                       height: constraints.maxHeight * 0.6,
                       child: Image.asset("assets/images/waiting.png",
-                          fit: BoxFit.cover),
+                        fit: BoxFit.cover),
                     ),
                   ],
                 );

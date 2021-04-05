@@ -153,9 +153,12 @@ class _MyHomePageState extends State<MyHomePage> {
         )
       ],
     );
+
     final availableHeight = MediaQuery.of(context).size.height -
         appBar.preferredSize.height -
         MediaQuery.of(context).padding.top;
+    bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
 
     return Scaffold(
       appBar: appBar,
@@ -164,26 +167,26 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Exibir gráfico"),
-                  Switch(
-                    value: _showChart,
-                    onChanged: (value) {
-                      setState(() {
-                        _showChart = value;
-                      });
-                    }
-                  ),
-                ],
-              ),
-              if(_showChart) 
+              if(isLandscape)
+                  Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Exibir gráfico"),
+                    Switch(
+                      value: _showChart,
+                      onChanged: (value) {
+                        setState(() {
+                          _showChart = value;
+                        });
+                      }),
+                  ],
+                ),
+              if (_showChart || !isLandscape)
                 Container(
-                  height: availableHeight * 0.3,
+                  height: availableHeight * (isLandscape ? 0.6 : 0.3),
                   child: Chart(_recentTransactions),
                 ),
-              if(!_showChart)
+              if (!_showChart || !isLandscape)
                 Container(
                   height: availableHeight * 0.7,
                   child: TransactionList(_transactions, _deleteTransaction),
