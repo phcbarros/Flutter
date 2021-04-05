@@ -140,9 +140,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _getIconButton(IconData icon, Function fn) {
-    return isIOS 
-      ? GestureDetector(onTap: fn, child: Icon(icon)) 
-      : IconButton(icon: Icon(icon), onPressed: fn);
+    return isIOS
+        ? GestureDetector(onTap: fn, child: Icon(icon))
+        : IconButton(icon: Icon(icon), onPressed: fn);
   }
 
   @override
@@ -150,10 +150,13 @@ class _MyHomePageState extends State<MyHomePage> {
     final mediaQuery = MediaQuery.of(context);
     bool isLandscape = mediaQuery.orientation == Orientation.landscape;
 
+    final listIcon = isIOS ? CupertinoIcons.list_bullet : Icons.list;
+    final charICon = isIOS ? CupertinoIcons.chart_bar_alt_fill : Icons.show_chart;
+
     final actions = <Widget>[
       if (isLandscape)
         _getIconButton(
-          _showChart ? (isIOS ? CupertinoIcons.list_bullet : Icons.list) : (isIOS ? CupertinoIcons.chart_bar_fill : Icons.show_chart),
+          _showChart ? listIcon : charICon,
           () {
             setState(() {
               _showChart = !_showChart;
@@ -189,7 +192,8 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar.preferredSize.height -
         mediaQuery.padding.top;
 
-    final bodyPage = SingleChildScrollView(
+    final bodyPage = SafeArea(
+        child: SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -205,7 +209,7 @@ class _MyHomePageState extends State<MyHomePage> {
             )
         ],
       ),
-    );
+    ));
 
     return isIOS
         ? CupertinoPageScaffold(
