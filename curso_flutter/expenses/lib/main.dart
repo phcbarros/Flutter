@@ -73,19 +73,29 @@ class _MyHomePageState extends State<MyHomePage> {
         title: 'Conta de Luz',
         value: 100.55,
         date: DateTime.now().subtract(Duration(days: 2))),
-      Transaction(
+    Transaction(
         id: '4',
         title: 'Conta de Água',
         value: 100.55,
         date: DateTime.now().subtract(Duration(days: 2))),
-        Transaction(
-        id: '4',
-        title: 'Conta de Água',
+    Transaction(
+        id: '5',
+        title: 'Conta de Internet',
         value: 100.55,
         date: DateTime.now().subtract(Duration(days: 2))),
-        Transaction(
-        id: '4',
-        title: 'Conta de Água',
+    Transaction(
+        id: '6',
+        title: 'Cartão de crédito',
+        value: 100.55,
+        date: DateTime.now().subtract(Duration(days: 2))),
+    Transaction(
+        id: '7',
+        title: 'Compra supermercado',
+        value: 100.55,
+        date: DateTime.now().subtract(Duration(days: 2))),
+    Transaction(
+        id: '8',
+        title: 'Compra camisa',
         value: 100.55,
         date: DateTime.now().subtract(Duration(days: 2))),
   ];
@@ -127,22 +137,33 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final appBar = AppBar(
+      title: Text("Despesas Pessoais"),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => _openTransactionModalForm(context),
+        )
+      ],
+    );
+    final availableHeight = MediaQuery.of(context).size.height 
+      - appBar.preferredSize.height 
+      - MediaQuery.of(context).padding.top;
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Despesas Pessoais"),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _openTransactionModalForm(context),
-          )
-        ],
-      ),
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Chart(_recentTransactions),
-            TransactionList(_transactions, _deleteTransaction)
+            Container(
+              height: availableHeight * 0.3,
+              child: Chart(_recentTransactions),
+            ),
+            Container(
+              height: availableHeight * 0.7,
+              child: TransactionList(_transactions, _deleteTransaction),
+            )
           ],
         ),
       ),
