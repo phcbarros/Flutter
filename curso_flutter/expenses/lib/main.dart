@@ -72,17 +72,17 @@ class _MyHomePageState extends State<MyHomePage> {
         id: '2',
         title: 'Conta de Luz',
         value: 100.55,
-        date: DateTime.now().subtract(Duration(days: 2))),
+        date: DateTime.now().subtract(Duration(days: 6))),
     Transaction(
         id: '4',
         title: 'Conta de Água',
         value: 100.55,
-        date: DateTime.now().subtract(Duration(days: 2))),
+        date: DateTime.now().subtract(Duration(days: 4))),
     Transaction(
         id: '5',
         title: 'Conta de Internet',
         value: 100.55,
-        date: DateTime.now().subtract(Duration(days: 2))),
+        date: DateTime.now().subtract(Duration(days: 4))),
     Transaction(
         id: '6',
         title: 'Cartão de crédito',
@@ -92,12 +92,12 @@ class _MyHomePageState extends State<MyHomePage> {
         id: '7',
         title: 'Compra supermercado',
         value: 100.55,
-        date: DateTime.now().subtract(Duration(days: 2))),
+        date: DateTime.now().subtract(Duration(days: 1))),
     Transaction(
         id: '8',
         title: 'Compra camisa',
         value: 100.55,
-        date: DateTime.now().subtract(Duration(days: 2))),
+        date: DateTime.now().subtract(Duration(days: 1))),
   ];
 
   List<Transaction> get _recentTransactions {
