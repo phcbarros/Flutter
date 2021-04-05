@@ -58,46 +58,46 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [
-    // Transaction(
-    //     id: '3',
-    //     title: 'Conta Antiga',
-    //     value: 199.00,
-    //     date: DateTime.now().subtract(Duration(days: 33))),
-    // Transaction(
-    //     id: '1',
-    //     title: 'Box Pokemon',
-    //     value: 199.00,
-    //     date: DateTime.now().subtract(Duration(days: 3))),
-    // Transaction(
-    //     id: '2',
-    //     title: 'Conta de Luz',
-    //     value: 100.55,
-    //     date: DateTime.now().subtract(Duration(days: 6))),
-    // Transaction(
-    //     id: '4',
-    //     title: 'Conta de Água',
-    //     value: 100.55,
-    //     date: DateTime.now().subtract(Duration(days: 4))),
-    // Transaction(
-    //     id: '5',
-    //     title: 'Conta de Internet',
-    //     value: 100.55,
-    //     date: DateTime.now().subtract(Duration(days: 4))),
-    // Transaction(
-    //     id: '6',
-    //     title: 'Cartão de crédito',
-    //     value: 100.55,
-    //     date: DateTime.now().subtract(Duration(days: 2))),
-    // Transaction(
-    //     id: '7',
-    //     title: 'Compra supermercado',
-    //     value: 100.55,
-    //     date: DateTime.now().subtract(Duration(days: 1))),
-    // Transaction(
-    //     id: '8',
-    //     title: 'Compra camisa',
-    //     value: 100.55,
-    //     date: DateTime.now().subtract(Duration(days: 1))),
+    Transaction(
+        id: '3',
+        title: 'Conta Antiga',
+        value: 199.00,
+        date: DateTime.now().subtract(Duration(days: 33))),
+    Transaction(
+        id: '1',
+        title: 'Box Pokemon',
+        value: 199.00,
+        date: DateTime.now().subtract(Duration(days: 3))),
+    Transaction(
+        id: '2',
+        title: 'Conta de Luz',
+        value: 100.55,
+        date: DateTime.now().subtract(Duration(days: 6))),
+    Transaction(
+        id: '4',
+        title: 'Conta de Água',
+        value: 100.55,
+        date: DateTime.now().subtract(Duration(days: 4))),
+    Transaction(
+        id: '5',
+        title: 'Conta de Internet',
+        value: 100.55,
+        date: DateTime.now().subtract(Duration(days: 4))),
+    Transaction(
+        id: '6',
+        title: 'Cartão de crédito',
+        value: 100.55,
+        date: DateTime.now().subtract(Duration(days: 2))),
+    Transaction(
+        id: '7',
+        title: 'Compra supermercado',
+        value: 100.55,
+        date: DateTime.now().subtract(Duration(days: 1))),
+    Transaction(
+        id: '8',
+        title: 'Compra camisa',
+        value: 100.55,
+        date: DateTime.now().subtract(Duration(days: 1))),
   ];
   bool _showChart = false;
 
@@ -185,7 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               if (!_showChart || !isLandscape)
                 Container(
-                  height: availableHeight * 0.7,
+                  height: availableHeight * (isLandscape ? 1 :  0.7),
                   child: TransactionList(_transactions, _deleteTransaction),
                 )
             ],
