@@ -1,7 +1,7 @@
 import 'package:expenses/components/adaptative_button.dart';
+import 'package:expenses/components/adaptative_date_picker.dart';
 import 'package:expenses/components/adaptative_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
   final void Function(String, double, DateTime) onSubmit;
@@ -26,22 +26,10 @@ class _TransactionFormState extends State<TransactionForm> {
     widget.onSubmit(title, value, selectedDate);
   }
 
-  _showDatePicker() async {
-    try {
-      var pickedDate = await showDatePicker(
-          context: context,
-          initialDate: selectedDate,
-          firstDate: DateTime(2019),
-          lastDate: DateTime.now());
-
-      if (pickedDate == null) return;
-
-      setState(() {
-        selectedDate = pickedDate;
-      });
-    } catch (e) {
-      print(e.toString());
-    }
+  _onDateChanged(DateTime newDate) {
+    setState(() {
+      selectedDate = newDate;
+    });
   }
 
   @override
@@ -71,27 +59,8 @@ class _TransactionFormState extends State<TransactionForm> {
                 label: "Valor (R\$)",
                 keyboartype: TextInputType.numberWithOptions(decimal: true),
               ),
-              Container(
-                height: 70,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(selectedDate == null
-                        ? "Nenhuma data selecionada!"
-                        : "Data selecionada: ${DateFormat('dd/MM/y', 'pt-BR').format(selectedDate)}"
-                      ),
-                    TextButton(
-                      onPressed: _showDatePicker,
-                      child: Text(
-                        "Selecionar Data",
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+              AdaptativeDatePicker(
+                selectedDate: selectedDate, onDateChanged: _onDateChanged,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
