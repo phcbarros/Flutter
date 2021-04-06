@@ -26,6 +26,7 @@ class MusicApp extends StatefulWidget {
 class _MusicAppState extends State<MusicApp> {
   bool playing = false; // at the begining wer are not playing any song
   IconData playBtn = Icons.play_arrow; // the main state of the play button icon
+  double volume = 1.0;
 
   // Now let's start by creating our music player
   // firts let's declare some object
@@ -48,6 +49,24 @@ class _MusicAppState extends State<MusicApp> {
           onChanged: (value) {
             seekToSec(value.toInt());
           }),
+    );
+  }
+
+  Widget sliderVolume() {
+    return Container(
+      child: Slider.adaptive(
+        activeColor: Colors.blue[800],
+        inactiveColor: Colors.grey[350],
+        min: 0.0,
+        value: volume,
+        max: 2.0,
+        onChanged: (value) {
+          _player.setVolume(value);
+          setState(() {
+            volume = value;
+          });
+        },
+      ),
     );
   }
 
@@ -85,14 +104,12 @@ class _MusicAppState extends State<MusicApp> {
     });
 
     _player.onPlayerCompletion.listen((_) {
-    setState(() {
-      position = Duration(seconds: 0);
-      playing = false;
-      playBtn = Icons.play_arrow;
+      setState(() {
+        position = Duration(seconds: 0);
+        playing = false;
+        playBtn = Icons.play_arrow;
+      });
     });
-
-  });
-
   }
 
   @override
@@ -244,6 +261,20 @@ class _MusicAppState extends State<MusicApp> {
                                 Icons.skip_next,
                               ),
                             ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              "Volume",
+                              style: TextStyle(
+                                fontSize: 18.0
+                              ),
+                            ),
+                            sliderVolume(),
                           ],
                         ),
                       ],
