@@ -84,6 +84,15 @@ class _MusicAppState extends State<MusicApp> {
       print('Erro ao obter posição');
     });
 
+    _player.onPlayerCompletion.listen((_) {
+    setState(() {
+      position = Duration(seconds: 0);
+      playing = false;
+      playBtn = Icons.play_arrow;
+    });
+
+  });
+
   }
 
   @override
