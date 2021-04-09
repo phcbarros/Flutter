@@ -2,6 +2,7 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:music_app/components/volume_slider.dart';
 
 void main() {
   runApp(MyApp());
@@ -61,24 +62,6 @@ class _MusicAppState extends State<MusicApp> {
           onChanged: (value) {
             seekToSec(value.toInt());
           }),
-    );
-  }
-
-  Widget sliderVolume() {
-    return Container(
-      child: Slider.adaptive(
-        activeColor: Colors.blue[800],
-        inactiveColor: Colors.grey[350],
-        min: 0.0,
-        value: volume,
-        max: 2.0,
-        onChanged: (value) {
-          _player.setVolume(value);
-          setState(() {
-            volume = value;
-          });
-        },
-      ),
     );
   }
 
@@ -148,6 +131,13 @@ class _MusicAppState extends State<MusicApp> {
     setState(() {
       currentMusic--;
       cache.play("${musics[currentMusic].singer}.mp3");
+    });
+  }
+
+  void onChangeVolume(value) {
+    _player.setVolume(value);
+    setState(() {
+      volume = value;
     });
   }
 
@@ -269,7 +259,7 @@ class _MusicAppState extends State<MusicApp> {
                               iconSize: 45,
                               color: _canGoToPreviousMusic() ? Colors.blue : Colors.grey,
                               onPressed: () {
-                                //if(_canGoToPreviousMusic())
+                                if(_canGoToPreviousMusic())
                                   _goToPreviousMusic();
                               },
                               icon: Icon(
@@ -321,7 +311,7 @@ class _MusicAppState extends State<MusicApp> {
                               "Volume",
                               style: TextStyle(fontSize: 18.0),
                             ),
-                            sliderVolume(),
+                            VolumeSlider(volume: volume, onVolumeChanged: onChangeVolume),
                           ],
                         ),
                       ],
