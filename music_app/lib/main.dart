@@ -27,6 +27,18 @@ class _MusicAppState extends State<MusicApp> {
   bool playing = false; // at the begining wer are not playing any song
   IconData playBtn = Icons.play_arrow; // the main state of the play button icon
   double volume = 1.0;
+  List<Music> musics = [
+    Music(
+      singer: 'Pia Mia - Do It Again ft. Chris Brown, Tyga',
+      cover: 'Pia Mia.jpeg'),
+    Music(
+      singer: 'Chris Brown - Loyal ft. Lil Wayne, Tyga',
+      cover: 'Chris Brown.jpeg'),
+    Music(
+      singer: 'Freaky Friday',
+      cover: 'Chris Brown.jpeg')
+  ];
+  var currentMusic = 0;
 
   // Now let's start by creating our music player
   // firts let's declare some object
@@ -104,11 +116,38 @@ class _MusicAppState extends State<MusicApp> {
     });
 
     _player.onPlayerCompletion.listen((_) {
-      setState(() {
-        position = Duration(seconds: 0);
-        playing = false;
-        playBtn = Icons.play_arrow;
-      });
+      if (_canGoToNextMusic()) {
+        _goToNextMusic();
+      } else {
+        setState(() {
+          currentMusic = 0;
+          position = Duration(seconds: 0);
+          playing = false;
+          playBtn = Icons.play_arrow;
+        });
+      }
+    });
+  }
+
+  bool _canGoToNextMusic() {
+    return currentMusic < musics.length - 1 ? true : false;
+  }
+
+  void _goToNextMusic() {
+    setState(() {
+      currentMusic++;
+      cache.play("${musics[currentMusic].singer}.mp3");
+    });
+  }
+
+  bool _canGoToPreviousMusic() {
+    return currentMusic <= 0 ? false : true;
+  }
+
+  void _goToPreviousMusic() {
+    setState(() {
+      currentMusic--;
+      cache.play("${musics[currentMusic].singer}.mp3");
     });
   }
 
@@ -118,13 +157,15 @@ class _MusicAppState extends State<MusicApp> {
       body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
               Colors.blue[800],
               Colors.blue[200],
-            ])),
+            ]
+          )
+        ),
         child: Padding(
           padding: EdgeInsets.only(top: 48.0),
           child: Container(
@@ -166,19 +207,23 @@ class _MusicAppState extends State<MusicApp> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30.0),
                         image: DecorationImage(
-                            image: AssetImage("assets/image.jpeg"))),
+                            image: AssetImage(
+                                "assets/${musics[currentMusic].cover}"))),
                   ),
                 ),
                 SizedBox(
                   height: 18.0,
                 ),
                 Center(
-                  child: Text(
-                    "Chris Brown",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 32.0,
-                        fontWeight: FontWeight.w600),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Text(
+                      musics[currentMusic].singer,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 32.0,
+                          fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -222,8 +267,11 @@ class _MusicAppState extends State<MusicApp> {
                           children: [
                             IconButton(
                               iconSize: 45,
-                              color: Colors.blue,
-                              onPressed: () {},
+                              color: _canGoToPreviousMusic() ? Colors.blue : Colors.grey,
+                              onPressed: () {
+                                //if(_canGoToPreviousMusic())
+                                  _goToPreviousMusic();
+                              },
                               icon: Icon(
                                 Icons.skip_previous,
                               ),
@@ -234,15 +282,13 @@ class _MusicAppState extends State<MusicApp> {
                               onPressed: () {
                                 if (!playing) {
                                   // now let's play the song
-                                  cache.play(
-                                      "Chris Brown - Loyal (Official Video) ft. Lil Wayne, Tyga.mp3");
+                                  cache.play("${musics[currentMusic].singer}.mp3");
                                   setState(() {
                                     playBtn = Icons.pause;
                                     playing = true;
                                   });
                                 } else {
                                   _player.pause();
-
                                   setState(() {
                                     playBtn = Icons.play_arrow;
                                     playing = false;
@@ -255,8 +301,11 @@ class _MusicAppState extends State<MusicApp> {
                             ),
                             IconButton(
                               iconSize: 45,
-                              color: Colors.blue,
-                              onPressed: () {},
+                              color: _canGoToNextMusic() ? Colors.blue : Colors.grey,
+                              onPressed: () {
+                                if (_canGoToNextMusic())  
+                                  _goToNextMusic();
+                              },
                               icon: Icon(
                                 Icons.skip_next,
                               ),
@@ -270,9 +319,7 @@ class _MusicAppState extends State<MusicApp> {
                           children: [
                             Text(
                               "Volume",
-                              style: TextStyle(
-                                fontSize: 18.0
-                              ),
+                              style: TextStyle(fontSize: 18.0),
                             ),
                             sliderVolume(),
                           ],
@@ -288,4 +335,11 @@ class _MusicAppState extends State<MusicApp> {
       ),
     );
   }
+}
+
+class Music {
+  final String singer;
+  final String cover;
+
+  Music({this.singer, this.cover});
 }
