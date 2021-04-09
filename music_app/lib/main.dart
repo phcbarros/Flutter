@@ -1,5 +1,3 @@
-import 'package:audioplayers/audio_cache.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:music_app/components/music_player.dart';
@@ -30,9 +28,6 @@ class MusicApp extends StatefulWidget {
 }
 
 class _MusicAppState extends State<MusicApp> {
-  bool playing = false; // at the begining wer are not playing any song
-  IconData playBtn = Icons.play_arrow; // the main state of the play button icon
-  double volume = 1.0;
   List<Music> musics = [
     Music(
         singer: 'Pia Mia ft. Chris Brown, Tyga',
@@ -49,103 +44,21 @@ class _MusicAppState extends State<MusicApp> {
   ];
   var currentMusic = 0;
 
-  // Now let's start by creating our music player
-  // firts let's declare some object
-  AudioPlayer _player;
-  AudioCache cache;
-
-  Duration position = Duration(seconds: 0);
-  Duration musicLength = Duration(seconds: 1); // fix bug slider
-
-
-  // let's create the seek function that will allow us to go to a certain position of the music
-  void seekToSec(int sec) {
-    Duration newPos = Duration(seconds: sec);
-    _player.seek(newPos);
-  }
-
-  // Now let's initialize our player
-  @override
-  void initState() {
-    super.initState();
-    _player = AudioPlayer();
-    cache = AudioCache(fixedPlayer: _player);
-
-    // Now let's handle the audio player time
-
-    // this function will allow you to get the music duration
-    _player.onDurationChanged.listen((Duration duration) {
-      setState(() {
-        musicLength = duration;
-      });
-    });
-
-    // this function will allow us to move the cursor of the slider while we are playing the song
-    _player.onAudioPositionChanged.listen((Duration p) {
-      setState(() {
-        position = p;
-      });
-    }, onError: (e) {
-      print('Erro ao obter posição');
-    });
-
-    _player.onPlayerCompletion.listen((_) {
-      if (_canGoToNextMusic(currentMusic, musics)) {
-        _goToNextMusic();
-      } else {
-        setState(() {
-          currentMusic = 0;
-          position = Duration(seconds: 0);
-          playing = false;
-          playBtn = Icons.play_arrow;
-        });
-      }
-    });
-  }
-
-  void onPlayMusic() {
-    if (!playing) {
-      // now let's play the song
-      cache.play("${musics[currentMusic].song}.mp3");
-      setState(() {
-        playBtn = Icons.pause;
-        playing = true;
-      });
-    } else {
-      _player.pause();
-      setState(() {
-        playBtn = Icons.play_arrow;
-        playing = false;
-      });
-    }
-  }
-
-  bool _canGoToNextMusic(int currentMusic, List<Music> musics) {
-    return currentMusic < musics.length - 1 ? true : false;
-  }
-
-  void _goToNextMusic() {
+  void _goToNextMusic(int music) {
     setState(() {
       currentMusic++;
-      cache.play("${musics[currentMusic].song}.mp3");
     });
   }
 
-  bool _canGoToPreviousMusic(int currentMusic) {
-    return currentMusic == 0 ? false : true;
-  }
-
-  void _goToPreviousMusic() {
+  void _goToPreviousMusic(int music) {
     setState(() {
       currentMusic--;
-      cache.play("${musics[currentMusic].song}.mp3");
     });
   }
 
-  void onChangeVolume(value) {
-    _player.setVolume(value);
+  void _resetMusic() {
     setState(() {
-      volume = value;
+      currentMusic = 0;
     });
   }
 
@@ -155,10 +68,10 @@ class _MusicAppState extends State<MusicApp> {
       body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
               Colors.blue[800],
               Colors.blue[200],
             ],
@@ -185,18 +98,11 @@ class _MusicAppState extends State<MusicApp> {
                   height: 30.0,
                 ),
                 MusicPlayer(
-                  currentMusic: currentMusic, 
-                  position: position, 
-                  musicLength: musicLength, 
-                  playBtn: playBtn, 
-                  seekToSec: seekToSec, 
-                  volume: volume, 
-                  onChangeVolume: onChangeVolume, 
-                  isEnabledPreviousButton: _canGoToPreviousMusic(currentMusic), 
-                  onPressPreviousButton: _goToPreviousMusic, 
-                  isEnabledNextButton: _canGoToNextMusic(currentMusic, musics), 
-                  onPressNextButton: _goToNextMusic, 
-                  onPlayMusic: onPlayMusic
+                  currentMusic: currentMusic,
+                  listOfMusic: musics,
+                  goToNextMusic: _goToNextMusic,
+                  goTopPreviousMusic: _goToPreviousMusic,
+                  resetListOfMusic: _resetMusic,
                 ),
               ],
             ),
