@@ -2,7 +2,10 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:music_app/components/sub_header.dart';
 import 'package:music_app/components/volume_slider.dart';
+
+import 'components/header.dart';
 
 void main() {
   runApp(MyApp());
@@ -164,28 +167,8 @@ class _MusicAppState extends State<MusicApp> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Let's add some text title
-                Padding(
-                  padding: const EdgeInsets.only(left: 12.0),
-                  child: Text(
-                    "Music Beats",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 38.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 12.0),
-                  child: Text(
-                    "Listen to your favorite Music",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
+                Header(label: "Music Beats"),
+                SubHeader(label: "Listen to your favorite Music"),
                 SizedBox(
                   height: 24.0,
                 ),

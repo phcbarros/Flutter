@@ -4,7 +4,10 @@ class VolumeSlider extends StatelessWidget {
   final double volume;
   final void Function(double) onVolumeChanged;
 
-  VolumeSlider({this.volume, this.onVolumeChanged});
+  VolumeSlider({
+    @required this.volume, 
+    @required this.onVolumeChanged
+  });
 
   @override
   Widget build(BuildContext context) {
