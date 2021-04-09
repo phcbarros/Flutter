@@ -6,6 +6,8 @@ import 'package:music_app/components/sub_header.dart';
 import 'package:music_app/components/volume_slider.dart';
 
 import 'components/header.dart';
+import 'components/music_cover.dart';
+import 'models/music.dart';
 
 void main() {
   runApp(MyApp());
@@ -33,14 +35,20 @@ class _MusicAppState extends State<MusicApp> {
   double volume = 1.0;
   List<Music> musics = [
     Music(
-      singer: 'Pia Mia - Do It Again ft. Chris Brown, Tyga',
-      cover: 'Pia Mia.jpeg'),
+      singer: 'Pia Mia ft. Chris Brown, Tyga',
+      cover: 'Pia Mia.jpeg',
+      song: 'Pia Mia - Do It Again ft. Chris Brown, Tyga'
+    ),
     Music(
-      singer: 'Chris Brown - Loyal ft. Lil Wayne, Tyga',
-      cover: 'Chris Brown.jpeg'),
+      singer: 'Chris Brown ft. Lil Wayne, Tyga',
+      cover: 'Chris Brown.jpeg',
+      song: 'Chris Brown - Loyal ft. Lil Wayne, Tyga'
+    ),
     Music(
-      singer: 'Freaky Friday',
-      cover: 'Chris Brown.jpeg')
+      singer: 'Lil Dick ft Chris Brown',
+      cover: 'Chris Brown.jpeg',
+      song: 'Freaky Friday'
+    ),
   ];
   var currentMusic = 0;
 
@@ -58,13 +66,13 @@ class _MusicAppState extends State<MusicApp> {
     return Container(
       width: 300.0,
       child: Slider.adaptive(
-          activeColor: Colors.blue[800],
-          inactiveColor: Colors.grey[350],
-          value: position.inSeconds.toDouble(),
-          max: musicLength.inSeconds.toDouble(),
-          onChanged: (value) {
-            seekToSec(value.toInt());
-          }),
+        activeColor: Colors.blue[800],
+        inactiveColor: Colors.grey[350],
+        value: position.inSeconds.toDouble(),
+        max: musicLength.inSeconds.toDouble(),
+        onChanged: (value) {
+          seekToSec(value.toInt());
+        }),
     );
   }
 
@@ -115,6 +123,23 @@ class _MusicAppState extends State<MusicApp> {
     });
   }
 
+  void onPlayMusic() {
+    if (!playing) {
+      // now let's play the song
+      cache.play("${musics[currentMusic].song}.mp3");
+      setState(() {
+        playBtn = Icons.pause;
+        playing = true;
+      });
+    } else {
+      _player.pause();
+      setState(() {
+        playBtn = Icons.play_arrow;
+        playing = false;
+      });
+    }
+  }
+
   bool _canGoToNextMusic() {
     return currentMusic < musics.length - 1 ? true : false;
   }
@@ -122,7 +147,7 @@ class _MusicAppState extends State<MusicApp> {
   void _goToNextMusic() {
     setState(() {
       currentMusic++;
-      cache.play("${musics[currentMusic].singer}.mp3");
+      cache.play("${musics[currentMusic].song}.mp3");
     });
   }
 
@@ -133,7 +158,7 @@ class _MusicAppState extends State<MusicApp> {
   void _goToPreviousMusic() {
     setState(() {
       currentMusic--;
-      cache.play("${musics[currentMusic].singer}.mp3");
+      cache.play("${musics[currentMusic].song}.mp3");
     });
   }
 
@@ -172,32 +197,9 @@ class _MusicAppState extends State<MusicApp> {
                 SizedBox(
                   height: 24.0,
                 ),
-                // let's ad the music cover
-                Center(
-                  child: Container(
-                    width: 280,
-                    height: 280,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30.0),
-                        image: DecorationImage(
-                            image: AssetImage(
-                                "assets/${musics[currentMusic].cover}"))),
-                  ),
-                ),
-                SizedBox(
-                  height: 18.0,
-                ),
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: Text(
-                      musics[currentMusic].singer,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 32.0,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
+                MusicCover(
+                  cover: "assets/${musics[currentMusic].cover}",
+                  singer: musics[currentMusic].singer
                 ),
                 SizedBox(
                   height: 30.0,
@@ -252,22 +254,7 @@ class _MusicAppState extends State<MusicApp> {
                             IconButton(
                               iconSize: 45,
                               color: Colors.blue,
-                              onPressed: () {
-                                if (!playing) {
-                                  // now let's play the song
-                                  cache.play("${musics[currentMusic].singer}.mp3");
-                                  setState(() {
-                                    playBtn = Icons.pause;
-                                    playing = true;
-                                  });
-                                } else {
-                                  _player.pause();
-                                  setState(() {
-                                    playBtn = Icons.play_arrow;
-                                    playing = false;
-                                  });
-                                }
-                              },
+                              onPressed: onPlayMusic,
                               icon: Icon(
                                 playBtn,
                               ),
@@ -308,11 +295,4 @@ class _MusicAppState extends State<MusicApp> {
       ),
     );
   }
-}
-
-class Music {
-  final String singer;
-  final String cover;
-
-  Music({this.singer, this.cover});
 }
