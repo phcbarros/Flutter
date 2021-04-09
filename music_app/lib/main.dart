@@ -2,10 +2,9 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:music_app/components/music_player.dart';
 
-import 'components/music_time_slider.dart';
 import 'components/sub_header.dart';
-import 'components/volume_slider.dart';
 import 'components/header.dart';
 import 'components/music_cover.dart';
 import 'models/music.dart';
@@ -91,7 +90,7 @@ class _MusicAppState extends State<MusicApp> {
     });
 
     _player.onPlayerCompletion.listen((_) {
-      if (_canGoToNextMusic()) {
+      if (_canGoToNextMusic(currentMusic, musics)) {
         _goToNextMusic();
       } else {
         setState(() {
@@ -121,7 +120,7 @@ class _MusicAppState extends State<MusicApp> {
     }
   }
 
-  bool _canGoToNextMusic() {
+  bool _canGoToNextMusic(int currentMusic, List<Music> musics) {
     return currentMusic < musics.length - 1 ? true : false;
   }
 
@@ -132,7 +131,7 @@ class _MusicAppState extends State<MusicApp> {
     });
   }
 
-  bool _canGoToPreviousMusic() {
+  bool _canGoToPreviousMusic(int currentMusic) {
     return currentMusic == 0 ? false : true;
   }
 
@@ -162,7 +161,9 @@ class _MusicAppState extends State<MusicApp> {
                 colors: [
               Colors.blue[800],
               Colors.blue[200],
-            ])),
+            ],
+          ),
+        ),
         child: Padding(
           padding: EdgeInsets.only(top: 48.0),
           child: Container(
@@ -183,81 +184,19 @@ class _MusicAppState extends State<MusicApp> {
                 SizedBox(
                   height: 30.0,
                 ),
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30.0),
-                        topRight: Radius.circular(30.0),
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        // let's start by adding the controller
-                        MusicTimeSlider(
-                          position: position,
-                          musicLength: musicLength,
-                          onChanged: (value) => seekToSec(value.toInt()),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              iconSize: 45,
-                              color: _canGoToPreviousMusic()
-                                  ? Colors.blue
-                                  : Colors.grey,
-                              onPressed: () {
-                                if (_canGoToPreviousMusic())
-                                  _goToPreviousMusic();
-                              },
-                              icon: Icon(
-                                Icons.skip_previous,
-                              ),
-                            ),
-                            IconButton(
-                              iconSize: 45,
-                              color: Colors.blue,
-                              onPressed: onPlayMusic,
-                              icon: Icon(
-                                playBtn,
-                              ),
-                            ),
-                            IconButton(
-                              iconSize: 45,
-                              color: _canGoToNextMusic()
-                                  ? Colors.blue
-                                  : Colors.grey,
-                              onPressed: () {
-                                if (_canGoToNextMusic()) _goToNextMusic();
-                              },
-                              icon: Icon(
-                                Icons.skip_next,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              "Volume",
-                              style: TextStyle(fontSize: 18.0),
-                            ),
-                            VolumeSlider(
-                                volume: volume,
-                                onVolumeChanged: onChangeVolume),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                MusicPlayer(
+                  currentMusic: currentMusic, 
+                  position: position, 
+                  musicLength: musicLength, 
+                  playBtn: playBtn, 
+                  seekToSec: seekToSec, 
+                  volume: volume, 
+                  onChangeVolume: onChangeVolume, 
+                  isEnabledPreviousButton: _canGoToPreviousMusic(currentMusic), 
+                  onPressPreviousButton: _goToPreviousMusic, 
+                  isEnabledNextButton: _canGoToNextMusic(currentMusic, musics), 
+                  onPressNextButton: _goToNextMusic, 
+                  onPlayMusic: onPlayMusic
                 ),
               ],
             ),
