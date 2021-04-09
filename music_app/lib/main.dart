@@ -141,7 +141,7 @@ class _MusicAppState extends State<MusicApp> {
   }
 
   bool _canGoToPreviousMusic() {
-    return currentMusic <= 0 ? false : true;
+    return currentMusic == 0 ? false : true;
   }
 
   void _goToPreviousMusic() {
