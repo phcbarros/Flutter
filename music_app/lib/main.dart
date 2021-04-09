@@ -2,9 +2,10 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:music_app/components/sub_header.dart';
-import 'package:music_app/components/volume_slider.dart';
 
+import 'components/music_time_slider.dart';
+import 'components/sub_header.dart';
+import 'components/volume_slider.dart';
 import 'components/header.dart';
 import 'components/music_cover.dart';
 import 'models/music.dart';
@@ -35,20 +36,17 @@ class _MusicAppState extends State<MusicApp> {
   double volume = 1.0;
   List<Music> musics = [
     Music(
-      singer: 'Pia Mia ft. Chris Brown, Tyga',
-      cover: 'Pia Mia.jpeg',
-      song: 'Pia Mia - Do It Again ft. Chris Brown, Tyga'
-    ),
+        singer: 'Pia Mia ft. Chris Brown, Tyga',
+        cover: 'Pia Mia.jpeg',
+        song: 'Pia Mia - Do It Again ft. Chris Brown, Tyga'),
     Music(
-      singer: 'Chris Brown ft. Lil Wayne, Tyga',
-      cover: 'Chris Brown.jpeg',
-      song: 'Chris Brown - Loyal ft. Lil Wayne, Tyga'
-    ),
+        singer: 'Chris Brown ft. Lil Wayne, Tyga',
+        cover: 'Chris Brown.jpeg',
+        song: 'Chris Brown - Loyal ft. Lil Wayne, Tyga'),
     Music(
-      singer: 'Lil Dick ft Chris Brown',
-      cover: 'Chris Brown.jpeg',
-      song: 'Freaky Friday'
-    ),
+        singer: 'Lil Dick ft Chris Brown',
+        cover: 'Chris Brown.jpeg',
+        song: 'Freaky Friday'),
   ];
   var currentMusic = 0;
 
@@ -60,23 +58,6 @@ class _MusicAppState extends State<MusicApp> {
   Duration position = Duration(seconds: 0);
   Duration musicLength = Duration(seconds: 1); // fix bug slider
 
-  // We will create a custom slider
-
-  Widget slider() {
-    return Container(
-      width: 300.0,
-      child: Slider.adaptive(
-        activeColor: Colors.blue[800],
-        inactiveColor: Colors.grey[350],
-        value: position.inSeconds.toDouble(),
-        max: musicLength.inSeconds.toDouble(),
-        onChanged: (value) {
-          seekToSec(value.toInt());
-        }),
-    );
-  }
-
-  _twoDigits(int n) => n.toString().padLeft(2, "0");
 
   // let's create the seek function that will allow us to go to a certain position of the music
   void seekToSec(int sec) {
@@ -175,15 +156,13 @@ class _MusicAppState extends State<MusicApp> {
       body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
               Colors.blue[800],
               Colors.blue[200],
-            ]
-          )
-        ),
+            ])),
         child: Padding(
           padding: EdgeInsets.only(top: 48.0),
           child: Container(
@@ -199,7 +178,7 @@ class _MusicAppState extends State<MusicApp> {
                 ),
                 MusicCover(
                   cover: "assets/${musics[currentMusic].cover}",
-                  singer: musics[currentMusic].singer
+                  singer: musics[currentMusic].singer,
                 ),
                 SizedBox(
                   height: 30.0,
@@ -218,23 +197,10 @@ class _MusicAppState extends State<MusicApp> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         // let's start by adding the controller
-                        Container(
-                          width: 500,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                "${position.inMinutes.remainder(60)}:${_twoDigits(position.inSeconds.remainder(60))}",
-                                style: TextStyle(fontSize: 18.0),
-                              ),
-                              slider(),
-                              Text(
-                                "${musicLength.inMinutes}:${_twoDigits(musicLength.inSeconds.remainder(60))}",
-                                style: TextStyle(fontSize: 18.0),
-                              ),
-                            ],
-                          ),
+                        MusicTimeSlider(
+                          position: position,
+                          musicLength: musicLength,
+                          onChanged: (value) => seekToSec(value.toInt()),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -242,9 +208,11 @@ class _MusicAppState extends State<MusicApp> {
                           children: [
                             IconButton(
                               iconSize: 45,
-                              color: _canGoToPreviousMusic() ? Colors.blue : Colors.grey,
+                              color: _canGoToPreviousMusic()
+                                  ? Colors.blue
+                                  : Colors.grey,
                               onPressed: () {
-                                if(_canGoToPreviousMusic())
+                                if (_canGoToPreviousMusic())
                                   _goToPreviousMusic();
                               },
                               icon: Icon(
@@ -261,10 +229,11 @@ class _MusicAppState extends State<MusicApp> {
                             ),
                             IconButton(
                               iconSize: 45,
-                              color: _canGoToNextMusic() ? Colors.blue : Colors.grey,
+                              color: _canGoToNextMusic()
+                                  ? Colors.blue
+                                  : Colors.grey,
                               onPressed: () {
-                                if (_canGoToNextMusic())  
-                                  _goToNextMusic();
+                                if (_canGoToNextMusic()) _goToNextMusic();
                               },
                               icon: Icon(
                                 Icons.skip_next,
@@ -281,7 +250,9 @@ class _MusicAppState extends State<MusicApp> {
                               "Volume",
                               style: TextStyle(fontSize: 18.0),
                             ),
-                            VolumeSlider(volume: volume, onVolumeChanged: onChangeVolume),
+                            VolumeSlider(
+                                volume: volume,
+                                onVolumeChanged: onChangeVolume),
                           ],
                         ),
                       ],
